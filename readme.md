@@ -19,28 +19,56 @@ Raspberry Pi project to disable a doorbell during naptime.
 
 ## Usage
 
-```
-git clone git@github.com:watsoncj/naptime-doorbell.git
-screen sudo naptime-doorbell/naptime-doorbell.py
-# use ctrl-a ctrl-d to exit
-# `screen -r` to re-attach
-```
+    git clone git@github.com:watsoncj/naptime-doorbell.git
+    cd naptime-doorbell
+    sudo ./naptime-doorbell.py
+    ./enable-doorbell.py
+    ./disable-doorbell.py
+
+## Start daemon on system startup
+
+Add the following line to `/etc/rc.local` before the `exit 0` line:
+
+    /home/pi/naptime-doorbell/naptime-doorbell.py &
+
+When done, `/etc/rc.local` should resemble the following:
+
+    #!/bin/sh -e
+    #
+    # rc.local
+    #
+    # This script is executed at the end of each multiuser runlevel.
+    # Make sure that the script will "exit 0" on success or any other
+    # value on error.
+    #
+    # In order to enable or disable this script just change the execution
+    # bits.
+    #
+    # By default this script does nothing.
+    
+    # Print the IP address
+    _IP=$(hostname -I) || true
+    if [ "$_IP" ]; then
+      printf "My IP address is %s\n" "$_IP"
+    fi
+    
+    ### This is the line that was added
+    /home/pi/naptime-doorbell/naptime-doorbell.py &
+    
+    exit 0
+
 
 ## Example Crontab:
 
 Schedule the doorbell to be enabled/disabled by editing the crontab. (`crontab -e`)
 
-```
-# m h  dom mon dow   command
-30 12 * * * /home/pi/naptime-doorbell/disable-doorbell.py
-30 16 * * * /home/pi/naptime-doorbell/enable-doorbell.py
-```
+    # m h  dom mon dow   command
+    30 12 * * * /home/pi/naptime-doorbell/disable-doorbell.py
+    30 16 * * * /home/pi/naptime-doorbell/enable-doorbell.py
 
 ## Date Server:
 
-Since the Pi doesn't have a battery to keep the clock in sync when the power is off, it is important to install ntpdate so the Pi can get it's time from a time server when the network interface is up.
+Since the Pi doesn't have a battery to keep the clock in sync when the power is off, it is important to install ntpdate so the Pi can get it's time from a time server when the network interface comes up.
 
-```
-sudo apt-get update
-sudo apt-get install ntpdate
-```
+    sudo apt-get update
+    sudo apt-get install ntpdate
