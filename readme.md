@@ -25,6 +25,11 @@ Raspberry Pi project to disable a doorbell during naptime.
     ./enable-doorbell.py
     ./disable-doorbell.py
 
+    # Run API
+    pip install -r requirements.txt
+    ./api.py
+
+
 ## Start daemon on system startup
 
 Add the following line to `/etc/rc.local` before the `exit 0` line:
