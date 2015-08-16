@@ -26,7 +26,8 @@ Raspberry Pi project to disable a doorbell during naptime.
     ./disable-doorbell.py
 
     # Run API
-    pip install -r requirements.txt
+    sudo apt-get install python-pip
+    sudo pip install -r requirements.txt
     ./api.py
 
 
