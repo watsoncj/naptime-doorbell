@@ -33,9 +33,10 @@ Raspberry Pi project to disable a doorbell during naptime.
 
 ## Start daemon on system startup
 
-Add the following line to `/etc/rc.local` before the `exit 0` line:
+Add the following lines to `/etc/rc.local` before the `exit 0` line:
 
     /home/pi/naptime-doorbell/naptime-doorbell.py &
+    /home/pi/naptime-doorbell/api.py &
 
 When done, `/etc/rc.local` should resemble the following:
 
@@ -60,6 +61,7 @@ When done, `/etc/rc.local` should resemble the following:
     
     ### This is the line that was added
     /home/pi/naptime-doorbell/naptime-doorbell.py &
+    /home/pi/naptime-doorbell/api.py &
     
     exit 0
 
