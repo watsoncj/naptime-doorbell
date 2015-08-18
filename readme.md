@@ -2,6 +2,8 @@
 
 Raspberry Pi project to disable a doorbell during naptime.
 
+![screenshots](images/screenshots.png)
+
 ## Hardware:
 
 + Raspberry Pi (Model A used for this project but any will work)
@@ -15,7 +17,7 @@ Raspberry Pi project to disable a doorbell during naptime.
 + Connect GPIO pin 7 to the IN1 pin of the relay.
 + Connect pins 2 & 3 of the first relay (K1) in series into the doorbell circuit.
 
-![component image](naptime-doorbell.jpg)
+![component image](images/naptime-doorbell.jpg)
 
 ## Usage
 
