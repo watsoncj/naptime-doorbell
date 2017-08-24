@@ -4,13 +4,13 @@ import sys
 import signal
 import os
 
+CHANNEL = 4
+
 ctrlPath = "/home/pi/naptime-doorbell/ctrl"
 try:
-    os.mkfifo(ctrlPath)
+  os.mkfifo(ctrlPath)
 except OSError:
-    pass
-
-CHANNEL = 4
+  pass
 
 def clean_exit(signal, frame):
   GPIO.cleanup(CHANNEL)
@@ -22,11 +22,11 @@ GPIO.setup(CHANNEL, GPIO.OUT)
 GPIO.output(CHANNEL, 0) # initial state is enabled
 
 while True:
-    rp = open(ctrlPath, 'r')
-    response = rp.read()
-    if response == 'on\n':
-      print "ctrl: enabled"
-      GPIO.output(CHANNEL, 0)
-    else:
-      print "ctrl: disabled"
-      GPIO.output(CHANNEL, 1)
+  rp = open(ctrlPath, 'r')
+  response = rp.read()
+  if response == 'on\n':
+    print "ctrl: enabled"
+    GPIO.output(CHANNEL, 0)
+  else:
+    print "ctrl: disabled"
+    GPIO.output(CHANNEL, 1)

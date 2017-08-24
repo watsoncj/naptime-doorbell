@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Doorbell</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="toggle.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/jsx">
+      var ToggleButton = React.createClass({
+        getInitialState: function() {
+          return { enabled: true };
+        },
+        componentDidMount: function() {
+	  $.get('http://10.10.1.121:5000/api/status', function(result) {
+            console.log("result" + result +' ' + (result==='enabled'));
+	    if (this.isMounted()) {
+              var state = {
+	        enabled: result === 'enabled'
+	      };
+              console.log(state);
+	      this.setState(state);
+	    }
+	  }.bind(this));
+        },
+        handleChange: function(event) {
+          var url = 'http://10.10.1.121:5000/api/' + (this.state.enabled ? 'disable' : 'enable');
+
+          $.post(url, function(result) {console.log(url +': '+result);});
+          this.setState({enabled: !this.state.enabled});
+        },
+        render: function() {
+	  console.log('render');
+          return (
+            <ul className="tg-list">
+	      <li className="tg-list-item">
+                <h2><i className="fa fa-home"></i> doorbell</h2>
+	          <input className="tgl tgl-ios doorbell-cb" checked={this.state.enabled} onChange={this.handleChange} type="checkbox"/>
+	          <label className="tgl-btn" data-tg-off="Off" data-tg-on="On" for="cb5" onClick={this.handleChange}></label>
+	      </li>
+	    </ul>);
+        }
+      });
+      React.render(
+        <ToggleButton
+          name="toggleName1"
+          value="toggleValue1"
+          label="activate thrusters"/>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

@@ -2,6 +2,8 @@
 
 Raspberry Pi project to disable a doorbell during naptime.
 
+![screenshots](images/screenshots.png)
+
 ## Hardware:
 
 + Raspberry Pi (Model A used for this project but any will work)
@@ -15,7 +17,7 @@ Raspberry Pi project to disable a doorbell during naptime.
 + Connect GPIO pin 7 to the IN1 pin of the relay.
 + Connect pins 2 & 3 of the first relay (K1) in series into the doorbell circuit.
 
-![component image](naptime-doorbell.jpg)
+![component image](images/naptime-doorbell.jpg)
 
 ## Usage
 
@@ -25,11 +27,18 @@ Raspberry Pi project to disable a doorbell during naptime.
     ./enable-doorbell.py
     ./disable-doorbell.py
 
+    # Run API
+    sudo apt-get install python-pip
+    sudo pip install -r requirements.txt
+    ./api.py
+
+
 ## Start daemon on system startup
 
-Add the following line to `/etc/rc.local` before the `exit 0` line:
+Add the following lines to `/etc/rc.local` before the `exit 0` line:
 
     /home/pi/naptime-doorbell/naptime-doorbell.py &
+    /home/pi/naptime-doorbell/api.py &
 
 When done, `/etc/rc.local` should resemble the following:
 
@@ -54,6 +63,7 @@ When done, `/etc/rc.local` should resemble the following:
     
     ### This is the line that was added
     /home/pi/naptime-doorbell/naptime-doorbell.py &
+    /home/pi/naptime-doorbell/api.py &
     
     exit 0
 
